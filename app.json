@@ -1,0 +1,32 @@
+{
+  "name": "binimg-app",
+  "description": "تطبيق Node.js على Heroku لربوت binimg",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "version": "1.0.0",
+  "engines": {
+    "node": "^18.0.6"
+  },
+  "dependencies": {
+    "@types/node": "^18.0.6",
+    "axios": "^1.6.7",
+    "body-parser": "^1.20.2",
+    "botly": "^1.6.2",
+    "express": "^4.18.2"
+  },
+  "env": {
+    "PAGE_ACCESS_TOKEN": {
+      "description": "Access token for Facebook page",
+      "required": true
+    },
+    "VERIFY_TOKEN": {
+      "description": "Verification token for Facebook webhook",
+      "required": true
+    }
+  },
+  "devDependencies": {},
+  "repository": "https://github.com/Bomiro/bingimg",
+  "keywords": ["Node.js", "Heroku"],
+  "license": "رخصة-البرنامج"
+}

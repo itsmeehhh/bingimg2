@@ -1,0 +1,5 @@
+language = "nodejs"
+run = "while true; do npm start; sleep 2; done"
+
+[[ports]]
+localPort = 3000
