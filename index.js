@@ -6,8 +6,8 @@ const fetch = require('node-fetch');
 const app = express();
 const port = process.env.PORT || 3000;
 const botly = new Botly({
-    accessToken: process.env.ha,
-    verifyToken: process.env.hz,
+    accessToken: process.env.PAGE_ACCESS_TOKEN,
+    verifyToken: process.env.VERIFY_TOKEN,
     webHookPath: "/",
 });
 
