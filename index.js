@@ -16,9 +16,7 @@ const userm = [];
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.get('/', (req, res) => {
-  res.send('<h1> Hello World </h1>');
-});
+app.use("/", botly.router());
 
 // Handle initial greeting and image sending
 botly.on('message', async (sender, message, data) => {
