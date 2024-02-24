@@ -1,13 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const Botly = require('botly');
-const axios = require('axios');
+const fetch = require('node-fetch');
 
 const app = express();
 const port = process.env.PORT || 3000;
 const botly = new Botly({
-    accessToken: process.env.PAGE_ACCESS_TOKEN,
-    verifyToken: process.env.VERIFY_TOKEN,
+    accessToken: process.env.ha,
+    verifyToken: process.env.hz,
     webHookPath: "/",
 });
 
@@ -16,7 +16,9 @@ const userm = [];
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use("/", botly.router());
+app.get('/', (req, res) => {
+  res.send('<h1> Hello World </h1>');
+});
 
 // Handle initial greeting and image sending
 botly.on('message', async (sender, message, data) => {
@@ -30,17 +32,12 @@ botly.on('message', async (sender, message, data) => {
     // Send initial greeting
     botly.sendText({ id: userId, text: 'جاري تلبيت طلبك...' });
 
-    const genert = await generateImage(text)
 
-    // Send images
-    const images = genert.imgs
-    if (images) {
-      userLastInteraction[userId] = currentTime;
-   images.forEach((image) => {
-      botly.sendImage({ id: userId, url: image });
-    });
-
-
+    let data = await generateImage(text)
+    if (data && data.imgs.length > 0) {
+      for (let i = 0; i < data.imgs.length; i++) {
+      botly.sendImage({ id: userId, url: data.imgs[i] });
+      }
     // Notify the user that the bot is ready for the next interaction
     setTimeout(() => {
       botly.sendText({ id: userId, text: 'الروبوت جاهز لطلبك التالي!' });
@@ -73,15 +70,18 @@ async function generateImage(captionInput) {
     const url = 'https://chat-gpt.photos/api/generateImage';
 
     try {
-        const response = await axios.post(url, data, {
+        const response = await fetch(url, {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            body: JSON.stringify(data)
         });
 
-        return response.data;
+        const result = await response.json();
+        return result;
     } catch (error) {
         console.error("Error:", error);
         throw error;
     }
-        }
+}
